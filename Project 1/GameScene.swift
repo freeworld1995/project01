@@ -16,9 +16,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let player = SKSpriteNode(imageNamed: "plane3")
     let background = SKSpriteNode(imageNamed: "background")
+    let enemiesName = ["enemy1", "enemy2", "enemy3"]
+    
 
     let PLAYER_SPEED = 150.0
-    let BULLET_SPEED = 300.0
+    let BULLET_SPEED: TimeInterval = 2
+    let ENEMY_SPEED: TimeInterval = 2.7
+    let TIMER_INTERVAL: TimeInterval = 0.3
     
     let playerCategory: UInt32 = 0x1 << 1
     let sceneCategory: UInt32 = 0x1 << 0
@@ -34,12 +38,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.contactTestBitMask = playerCategory
         addBackground()
         addPlayer()
+        Timer.scheduledTimer(timeInterval: TIMER_INTERVAL, target: self, selector: #selector(addEnemy), userInfo: nil, repeats: true)
         
-        print(idealScreenSize)
+        print(self.size.height)
     }
     
+    //MARK: Add functions
+    
     func addPlayer() {
-        let shootAction = SKAction.run(addBullet)
+        let shootAction = SKAction.run ({
+            self.addBullet(bulletImage: "bullet", parentSprite: self.player, reverseDirection: 1)
+        }) // closure
+        
         let shootActionWithDelay = SKAction.sequence([shootAction, SKAction.wait(forDuration: 0.3)])
         let shootActionForever = SKAction.repeatForever(shootActionWithDelay)
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
@@ -60,41 +70,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(background)
     }
     
-    func addBullet() {
-        let bullet = SKSpriteNode(imageNamed: "bullet")
+    func addBullet(bulletImage: String, parentSprite: SKSpriteNode, reverseDirection: CGFloat) {
+        let bullet = SKSpriteNode(imageNamed: bulletImage)
         bullet.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        bullet.position = CGPoint(x: player.position.x, y: player.position.y + (bullet.size.height + player.size.height) / 2)
-        let bulletAction = SKAction.moveTo(y: self.size.height, duration: Double(self.size.height - bullet.position.y) / BULLET_SPEED)
-        let bulletFinal = SKAction.sequence([bulletAction,SKAction.removeFromParent()])
+        bullet.position = CGPoint(x: parentSprite.position.x, y: parentSprite.position.y + (bullet.size.height + player.size.height) / 2 * reverseDirection)
+        let bulletMoveForward = SKAction.moveTo(y: self.size.height * reverseDirection, duration: BULLET_SPEED)
+
+        let bulletFinal = SKAction.sequence([bulletMoveForward,SKAction.removeFromParent()])
         bullet.run(bulletFinal)
         self.addChild(bullet)
     }
     
     func addEnemy() {
-        
+        if #available(iOS 9.0, *) {
+            let enemiesSpriteDistribution = GKRandomDistribution(randomSource: GKARC4RandomSource(), lowestValue: 0, highestValue: enemiesName.count - 1)
+            
+            let enemy = SKSpriteNode(imageNamed: enemiesName[enemiesSpriteDistribution.nextInt()])
+            enemy.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            let enemyPosition = GKRandomDistribution(randomSource: GKARC4RandomSource(), lowestValue: 20, highestValue: 568)
+            enemy.position = CGPoint(x: enemyPosition.nextInt(), y: 568)
+            let enemyMoveForwardAC = SKAction.moveTo(y: -(self.size.height), duration: ENEMY_SPEED)
+            let enemyFinalAC = SKAction.sequence([enemyMoveForwardAC, SKAction.removeFromParent()])
+            enemy.run(enemyFinalAC)
+            
+            let shootAction = SKAction.run ({
+                self.addBullet(bulletImage: "enemy_bullet", parentSprite: enemy, reverseDirection: -1)
+            })
+            let shootActionWithDelay = SKAction.sequence([shootAction, SKAction.wait(forDuration: 0.8)])
+            let shootActionForever = SKAction.repeatForever(shootActionWithDelay)
+            enemy.run(shootActionForever)
+            self.addChild(enemy)
+            
+        } else {
+            // Fallback on earlier versions
+        }
     }
+    
+    //MARK: Action functions
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-//        var firstBody: SKPhysicsBody
-//        var secondBody: SKPhysicsBody
-        
-//        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-//            firstBody = contact.bodyA
-//            secondBody = contact.bodyB
-//        } else {
-//            firstBody = contact.bodyB
-//            secondBody = contact.bodyA
-//        }
         
         if (contact.bodyA.categoryBitMask == playerCategory) && (contact.bodyB.categoryBitMask == sceneCategory) {
             if #available(iOS 9.0, *) {
                 player.run(SKAction.stop())
-                let contactPoint = contact.contactPoint
-                print("Contact Point: \(contactPoint)")
             } else {
                 // Fallback on earlier versions
             }

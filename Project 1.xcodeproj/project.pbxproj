@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF2DF5B21DCF611A0027BFE4 /* GameDifficult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2DF5B11DCF611A0027BFE4 /* GameDifficult.swift */; };
 		BF57EA9F1DCDCC86000117CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF57EA9E1DCDCC86000117CB /* AppDelegate.swift */; };
 		BF57EAA31DCDCC86000117CB /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = BF57EAA21DCDCC86000117CB /* Actions.sks */; };
 		BF57EAA51DCDCC86000117CB /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF57EAA41DCDCC86000117CB /* GameScene.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BF2DF5B11DCF611A0027BFE4 /* GameDifficult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameDifficult.swift; sourceTree = "<group>"; };
 		BF57EA9B1DCDCC86000117CB /* Project 1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project 1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF57EA9E1DCDCC86000117CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF57EAA21DCDCC86000117CB /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				BF57EA9E1DCDCC86000117CB /* AppDelegate.swift */,
 				BF57EAA21DCDCC86000117CB /* Actions.sks */,
 				BF57EAA41DCDCC86000117CB /* GameScene.swift */,
+				BF2DF5B11DCF611A0027BFE4 /* GameDifficult.swift */,
 				BF57EAA61DCDCC86000117CB /* GameViewController.swift */,
 				BF57EAA81DCDCC86000117CB /* Main.storyboard */,
 				BF57EAAB1DCDCC86000117CB /* Assets.xcassets */,
@@ -146,6 +149,7 @@
 			files = (
 				BF57EAA51DCDCC86000117CB /* GameScene.swift in Sources */,
 				BF57EAA71DCDCC86000117CB /* GameViewController.swift in Sources */,
+				BF2DF5B21DCF611A0027BFE4 /* GameDifficult.swift in Sources */,
 				BF57EA9F1DCDCC86000117CB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
