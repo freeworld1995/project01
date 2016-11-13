@@ -33,7 +33,10 @@ class GameViewController: UIViewController {
         
         if let view = self.view as? SKView {
             let scene = GameScene(size: view.frame.size)
+            view.showsFPS = true
+            view.showsNodeCount = true
             view.presentScene(scene)
+            
             
         }
         

@@ -11,57 +11,32 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-//    private var label : SKLabelNode?
-//    private var spinnyNode : SKShapeNode?
-    
     let player = SKSpriteNode(imageNamed: "plane3")
     let background = SKSpriteNode(imageNamed: "background")
-    let enemiesName = ["enemy1", "enemy2", "enemy3"]
-    
+    let playerController = PlayerController()
 
-    let PLAYER_SPEED = 150.0
-    let BULLET_SPEED: TimeInterval = 2
-    let ENEMY_SPEED: TimeInterval = 2.7
-    let TIMER_INTERVAL: TimeInterval = 0.3
+    let TIMER_INTERVAL: TimeInterval = 0.5
     
-    let playerCategory: UInt32 = 0x1 << 1
-    let sceneCategory: UInt32 = 0x1 << 0
+    struct Sound {
+        static let explosion = "explosion.wav"
+    }
+    
+    let explodeSound = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)
+    
     
     override func didMove(to view: SKView) {
-        let idealScreenSize = CGRect(x: -(player.size.width / 2), y: 0, width: self.frame.width + player.size.width, height: self.frame.height)
-        let sceneBody = SKPhysicsBody(edgeLoopFrom: idealScreenSize)
-        sceneBody.friction = 0
-        self.physicsBody = sceneBody
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-        self.physicsWorld.contactDelegate = self
-        self.physicsBody?.categoryBitMask = sceneCategory
-        self.physicsBody?.contactTestBitMask = playerCategory
+        configWorld()
         addBackground()
-        addPlayer()
-        Timer.scheduledTimer(timeInterval: TIMER_INTERVAL, target: self, selector: #selector(addEnemy), userInfo: nil, repeats: true)
         
-        print(self.size.height)
+        let playerPosition = CGPoint(x: self.size.width / 2 , y: playerController.height / 2)
+        playerController.config(position: playerPosition, parent: self)
+        
+        Timer.scheduledTimer(timeInterval: TIMER_INTERVAL, target: self, selector: #selector(addEnemy), userInfo: nil, repeats: true)
     }
     
     //MARK: Add functions
     
     func addPlayer() {
-        let shootAction = SKAction.run ({
-            self.addBullet(bulletImage: "bullet", parentSprite: self.player, reverseDirection: 1)
-        }) // closure
-        
-        let shootActionWithDelay = SKAction.sequence([shootAction, SKAction.wait(forDuration: 0.3)])
-        let shootActionForever = SKAction.repeatForever(shootActionWithDelay)
-        player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
-        player.physicsBody?.categoryBitMask = playerCategory
-        player.physicsBody?.contactTestBitMask = sceneCategory
-        player.physicsBody?.allowsRotation = false
-        player.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        player.position = CGPoint(x: self.size.width / 2, y: player.size.height / 2)
-        player.run(shootActionForever)
-        
-        self.addChild(player)
-
     }
     
     func addBackground() {
@@ -70,40 +45,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(background)
     }
     
-    func addBullet(bulletImage: String, parentSprite: SKSpriteNode, reverseDirection: CGFloat) {
-        let bullet = SKSpriteNode(imageNamed: bulletImage)
-        bullet.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        bullet.position = CGPoint(x: parentSprite.position.x, y: parentSprite.position.y + (bullet.size.height + player.size.height) / 2 * reverseDirection)
-        let bulletMoveForward = SKAction.moveTo(y: self.size.height * reverseDirection, duration: BULLET_SPEED)
-
-        let bulletFinal = SKAction.sequence([bulletMoveForward,SKAction.removeFromParent()])
-        bullet.run(bulletFinal)
-        self.addChild(bullet)
+    func addEnemy() {
+        let enemyController = EnemyController()
+        let enemyPositionX = GKRandomDistribution(randomSource: GKARC4RandomSource(), lowestValue: 20, highestValue: Int(self.size.width))
+        enemyController.config(position: CGPoint(x: enemyPositionX.nextInt(), y: Int(self.size.height)), parent: self)
     }
     
-    func addEnemy() {
-        if #available(iOS 9.0, *) {
-            let enemiesSpriteDistribution = GKRandomDistribution(randomSource: GKARC4RandomSource(), lowestValue: 0, highestValue: enemiesName.count - 1)
-            
-            let enemy = SKSpriteNode(imageNamed: enemiesName[enemiesSpriteDistribution.nextInt()])
-            enemy.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            let enemyPosition = GKRandomDistribution(randomSource: GKARC4RandomSource(), lowestValue: 20, highestValue: 568)
-            enemy.position = CGPoint(x: enemyPosition.nextInt(), y: 568)
-            let enemyMoveForwardAC = SKAction.moveTo(y: -(self.size.height), duration: ENEMY_SPEED)
-            let enemyFinalAC = SKAction.sequence([enemyMoveForwardAC, SKAction.removeFromParent()])
-            enemy.run(enemyFinalAC)
-            
-            let shootAction = SKAction.run ({
-                self.addBullet(bulletImage: "enemy_bullet", parentSprite: enemy, reverseDirection: -1)
-            })
-            let shootActionWithDelay = SKAction.sequence([shootAction, SKAction.wait(forDuration: 0.8)])
-            let shootActionForever = SKAction.repeatForever(shootActionWithDelay)
-            enemy.run(shootActionForever)
-            self.addChild(enemy)
-            
-        } else {
-            // Fallback on earlier versions
-        }
+    func configWorld() {
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        self.physicsWorld.contactDelegate = self
+    }
+    
+    func explosion(at ExplodePos: CGPoint) {
+        let explosion = SKSpriteNode(imageNamed: "boom")
+        explosion.position = ExplodePos
+        explosion.zPosition = 3
+        explosion.setScale(0)
+        self.addChild(explosion)
+        
+        let scaleIn = SKAction.scale(to: 1, duration: 0.1)
+        let faceOut = SKAction.fadeOut(withDuration: 0.1)
+        let delete = SKAction.removeFromParent()
+        
+        let explosionSequence = SKAction.sequence([scaleIn, faceOut, delete])
+        
+        explosion.run(explosionSequence)
+        
+    }
+    
+    func runGameOver() {
+        let gameOverScene = GameOverScene(size: self.size)
+        gameOverScene.scaleMode = self.scaleMode
+        let sceneTransition = SKTransition.fade(with: UIColor.red, duration: TimeInterval(1))
+        self.view?.presentScene(gameOverScene, transition: sceneTransition)
     }
     
     //MARK: Action functions
@@ -114,32 +88,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         
-        if (contact.bodyA.categoryBitMask == playerCategory) && (contact.bodyB.categoryBitMask == sceneCategory) {
-            if #available(iOS 9.0, *) {
-                player.run(SKAction.stop())
-            } else {
-                // Fallback on earlier versions
-            }
+        var firstBody = SKPhysicsBody()
+        var secondBody = SKPhysicsBody()
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
         }
+        else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        if firstBody.categoryBitMask == PLAYER_BULLET && secondBody.categoryBitMask == ENEMY
+        {
+            if secondBody.node != nil {
+                explosion(at: secondBody.node!.position)
+                self.run(explodeSound)
+            }
+            
+            firstBody.node?.removeFromParent()
+            secondBody.node?.removeFromParent()
+        }
+        
+        if firstBody.categoryBitMask == PLAYER_MASK && secondBody.categoryBitMask == ENEMY_BULLET {
+            runGameOver()
+        }
+        
     }
+
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let touchPoint = touch.location(in: self)
-            let previousPosition = touch.previousLocation(in: self)
-            let vector = CGVector(dx: touchPoint.x - previousPosition.x, dy: touchPoint.y - previousPosition.y)
+            let location = touch.location(in: self)
+            let previousLocation = touch.previousLocation(in: self)
             
-            let dx = touchPoint.x - player.position.x
-            let dy = touchPoint.y - player.position.y
-            let distance = sqrt(dx * dx + dy * dy)
-            let time = Double(distance) / PLAYER_SPEED
-            player.run(SKAction.move(by: vector, duration: 0.5))
-//            SKAction.move(to: touchPoint, duration: time)
-//            SKAction.move(by: vector, duration: <#T##TimeInterval#>)
-//            player.run(SKAction.rotate(byAngle: CGFloat(M_PI*2), duration: 2))
+            let movementVector = CGVector(dx: location.x - previousLocation.x, dy: location.y - previousLocation.y)
             
+            playerController.move(vector: movementVector)
         }
-
     }
     
 
