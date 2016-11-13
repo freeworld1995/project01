@@ -10,7 +10,8 @@ import SpriteKit
 
 class PlayerBulletController: Controller {
     let duration: TimeInterval = 1.4
-    let SPEED: CGFloat = 300
+    let shootSound = SKAction.playSoundFileNamed("shoot.wav", waitForCompletion: false)
+    
     init() {
         super.init(view: SKSpriteNode(texture: PLAYER_BULLET_TEXTURE))
         
@@ -27,6 +28,6 @@ class PlayerBulletController: Controller {
         super.config(position: position, parent: parent)
         let moveToTopAction = SKAction.moveToTop(position: self.position, rect: parent.frame, duration: duration)
         
-        view.run(SKAction.sequence([moveToTopAction, SKAction.removeFromParent()]))
+        view.run(SKAction.sequence([shootSound, moveToTopAction, SKAction.removeFromParent()]))
     }
 }
