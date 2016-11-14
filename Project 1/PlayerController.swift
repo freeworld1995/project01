@@ -14,8 +14,8 @@ class PlayerController: Controller {
         super.init(view: SKSpriteNode(texture: PLAYER_TEXTURE))
     }
     
-    override func config(position: CGPoint, parent: SKNode) {
-        super.config(position: position, parent: parent)
+    override func config(position: CGPoint, parent: SKNode, shootAction: SKAction?, moveAction: SKAction?) {
+        super.config(position: position, parent: parent, shootAction: shootAction, moveAction: moveAction)
         self.parent = parent
         view.physicsBody = SKPhysicsBody(texture: view.texture!, size: view.size)
         view.physicsBody?.categoryBitMask = PLAYER_MASK
@@ -37,7 +37,7 @@ class PlayerController: Controller {
             let bulletController = PlayerBulletController()
             let startPosition = CGPoint(x: self.position.x, y: self.position.y + 0.5 * (self.height + bulletController.height))
             
-            bulletController.config(position: startPosition, parent: self.parent)
+            bulletController.config(position: startPosition, parent: self.parent, shootAction: nil, moveAction: nil)
         }
         
         let shootWithDelayAction = SKAction.sequence([shootAction, SKAction.wait(forDuration: TimeInterval(0.5))])

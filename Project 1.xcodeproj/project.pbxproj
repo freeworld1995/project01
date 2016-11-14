@@ -18,7 +18,6 @@
 		BF933FAB1DD87EDD00D563F2 /* shoot.wav in Resources */ = {isa = PBXBuildFile; fileRef = BF933FA91DD87EDD00D563F2 /* shoot.wav */; };
 		BF933FAC1DD87EDD00D563F2 /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = BF933FAA1DD87EDD00D563F2 /* explosion.wav */; };
 		BFB3C57D1DD4AA5C005DD46D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3C57C1DD4AA5C005DD46D /* Utils.swift */; };
-		BFB3C5801DD4C00F005DD46D /* BulletController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3C57F1DD4C00F005DD46D /* BulletController.swift */; };
 		BFB3C5831DD4C541005DD46D /* Contants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3C5821DD4C541005DD46D /* Contants.swift */; };
 		BFB3C5871DD6F9D6005DD46D /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3C5861DD6F9D6005DD46D /* GameOverScene.swift */; };
 		BFB3C5891DD6FEF2005DD46D /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3C5881DD6FEF2005DD46D /* Controller.swift */; };
@@ -43,7 +42,6 @@
 		BF933FA91DD87EDD00D563F2 /* shoot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shoot.wav; sourceTree = "<group>"; };
 		BF933FAA1DD87EDD00D563F2 /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = "<group>"; };
 		BFB3C57C1DD4AA5C005DD46D /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		BFB3C57F1DD4C00F005DD46D /* BulletController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulletController.swift; sourceTree = "<group>"; };
 		BFB3C5821DD4C541005DD46D /* Contants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contants.swift; sourceTree = "<group>"; };
 		BFB3C5861DD6F9D6005DD46D /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameOverScene.swift; path = ../GameOverScene.swift; sourceTree = "<group>"; };
 		BFB3C5881DD6FEF2005DD46D /* Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 		BFB3C57E1DD4BFA1005DD46D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BFB3C57F1DD4C00F005DD46D /* BulletController.swift */,
 				BFB3C5881DD6FEF2005DD46D /* Controller.swift */,
 				BFB3C58A1DD7019E005DD46D /* PlayerBulletController.swift */,
 				BFB3C58C1DD706E5005DD46D /* EnemyBulletController.swift */,
@@ -208,7 +205,6 @@
 				BFB3C58B1DD7019E005DD46D /* PlayerBulletController.swift in Sources */,
 				BF57EAA51DCDCC86000117CB /* GameScene.swift in Sources */,
 				BFB3C5871DD6F9D6005DD46D /* GameOverScene.swift in Sources */,
-				BFB3C5801DD4C00F005DD46D /* BulletController.swift in Sources */,
 				BFB3C58D1DD706E5005DD46D /* EnemyBulletController.swift in Sources */,
 				BFB3C5931DD71B50005DD46D /* EnemyController.swift in Sources */,
 				BFB3C5831DD4C541005DD46D /* Contants.swift in Sources */,

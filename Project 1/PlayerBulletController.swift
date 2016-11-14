@@ -24,8 +24,8 @@ class PlayerBulletController: Controller {
 
     }
     
-    override func config(position: CGPoint, parent: SKNode) {
-        super.config(position: position, parent: parent)
+    override func config(position: CGPoint, parent: SKNode, shootAction: SKAction?, moveAction: SKAction?) {
+        super.config(position: position, parent: parent, shootAction: shootAction, moveAction: moveAction)
         let moveToTopAction = SKAction.moveToTop(position: self.position, rect: parent.frame, duration: duration)
         
         view.run(SKAction.sequence([shootSound, moveToTopAction, SKAction.removeFromParent()]))

@@ -10,8 +10,7 @@ import SpriteKit
 
 class EnemyBulletController: Controller {
     
-    let duration: TimeInterval = 1.7
-    let SPEED: CGFloat = 300
+    let duration: TimeInterval = 2.2
     
     init() {
         super.init(view: SKSpriteNode(texture: ENEMY_BULLET_TEXTURE))
@@ -22,11 +21,12 @@ class EnemyBulletController: Controller {
         view.physicsBody?.collisionBitMask = 0
     }
     
-    override func config(position: CGPoint, parent: SKNode) {
-        super.config(position: position, parent: parent)
+    override func config(position: CGPoint, parent: SKNode, shootAction: SKAction?, moveAction: SKAction?) {
+        super.config(position: position, parent: parent, shootAction: shootAction, moveAction: moveAction)
         
-        let moveToBottom = SKAction.moveToBottom(position: self.position, rect: parent.frame, duration: duration)
+        let bulletMovement = shootAction
+//            SKAction.moveToBottom(position: self.position, rect: parent.frame, duration: duration)
         
-        view.run(SKAction.sequence([moveToBottom, SKAction.removeFromParent()]))
+        view.run(SKAction.sequence([bulletMovement!, SKAction.removeFromParent()]))
     }
 }

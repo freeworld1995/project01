@@ -30,6 +30,29 @@ class GameOverScene: SKScene {
         fuckImage.zPosition = 1
         self.addChild(fuckImage)
         
-        
+        let replay = SKLabelNode(fontNamed: "Sunset")
+        replay.name = "replay"
+        replay.position = CGPoint(x: self.size.width / 2, y: self.size.height * 0.20)
+        replay.fontSize = 40
+        replay.text = "Replay ?"
+        replay.color = SKColor.yellow
+        replay.zPosition = 1
+        self.addChild(replay)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch: AnyObject in touches {
+            let touchPos = touch.location(in: self)
+            let tappedNode = atPoint(touchPos)
+            let nameOfTappedNode = tappedNode.name
+            
+            if nameOfTappedNode == "replay" {
+                tappedNode.alpha = 0.5
+                let sceneToMoveTo = GameScene(size: self.size)
+                sceneToMoveTo.scaleMode = self.scaleMode
+                let sceneTransition = SKTransition.doorsOpenVertical(withDuration: 0.4)
+                self.view?.presentScene(sceneToMoveTo, transition: sceneTransition)
+            }
+        }
     }
 }

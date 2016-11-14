@@ -19,28 +19,28 @@ class EnemyController: Controller {
         
     }
     
-    override func config(position: CGPoint, parent: SKNode) {
-        super.config(position: position, parent: parent)
+    override func config(position: CGPoint, parent: SKNode, shootAction: SKAction?, moveAction: SKAction?) {
+        super.config(position: position, parent: parent, shootAction: shootAction, moveAction: moveAction)
         self.parent = parent
         view.physicsBody = SKPhysicsBody(texture: view.texture!, size: view.size)
         view.physicsBody?.categoryBitMask = ENEMY
         view.physicsBody?.contactTestBitMask = PLAYER_BULLET
         view.physicsBody?.collisionBitMask = 0
-        configMove()
-        configShoot()
+        configMove(action: moveAction!)
+        configShoot(action: shootAction!)
     }
     
-    func configMove() {
-        let moveToBottomAction = SKAction.moveToBottom(position: self.position, rect: parent.frame, duration: duration)
+    func configMove(action: SKAction) {
+//        let moveToBottomAction = SKAction.moveToBottom(position: self.position, rect: parent.frame, duration: duration)
         
-        self.view.run(SKAction.sequence([moveToBottomAction, SKAction.removeFromParent()]))
+        self.view.run(SKAction.sequence([action, SKAction.removeFromParent()]))
     }
     
-    func configShoot() -> Void{
+    func configShoot(action: SKAction) -> Void{
         let shootAction = SKAction.run { 
             let enemyBulletController = EnemyBulletController()
             let startPosition = CGPoint(x: self.position.x, y: self.position.y - (self.height + enemyBulletController.height) / 2)
-            enemyBulletController.config(position: startPosition, parent: self.parent)
+            enemyBulletController.config(position: startPosition, parent: self.parent, shootAction: action, moveAction: nil)
         }
         
         let shootWithDelayAction = SKAction.sequence([shootAction, SKAction.wait(forDuration: TimeInterval(2))])

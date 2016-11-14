@@ -11,16 +11,21 @@ import SpriteKit
 class Controller {
     let view: SKSpriteNode
     var parent: SKNode!
+    var shootAction: SKAction?
+    var moveAction: SKAction?
     
     init(view: SKSpriteNode) {
         self.view = view
     }
     
-    func config(position: CGPoint, parent: SKNode) {
+    func config(position: CGPoint, parent: SKNode, shootAction: SKAction?, moveAction: SKAction?) {
         self.view.position = position
         self.parent = parent
+        self.shootAction = shootAction
+        self.moveAction = moveAction
         parent.addChild(self.view)
     }
+    
     
     var width: CGFloat {
         get {
