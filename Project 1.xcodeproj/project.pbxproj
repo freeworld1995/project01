@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF07EBB21DDF6B8E0044B087 /* HeartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07EBB11DDF6B8E0044B087 /* HeartController.swift */; };
+		BF07EBB41DE020CA0044B087 /* ExplosionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07EBB31DE020CA0044B087 /* ExplosionController.swift */; };
 		BF2DF5B21DCF611A0027BFE4 /* GameDifficult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2DF5B11DCF611A0027BFE4 /* GameDifficult.swift */; };
 		BF57EA9F1DCDCC86000117CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF57EA9E1DCDCC86000117CB /* AppDelegate.swift */; };
 		BF57EAA31DCDCC86000117CB /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = BF57EAA21DCDCC86000117CB /* Actions.sks */; };
@@ -26,9 +28,12 @@
 		BFB3C58F1DD71024005DD46D /* Sunset.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFB3C58E1DD70FC9005DD46D /* Sunset.ttf */; };
 		BFB3C5911DD7125D005DD46D /* PlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3C5901DD7125D005DD46D /* PlayerController.swift */; };
 		BFB3C5931DD71B50005DD46D /* EnemyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3C5921DD71B50005DD46D /* EnemyController.swift */; };
+		BFDEAFFC1DDF2226009B3BC2 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDEAFFB1DDF2226009B3BC2 /* View.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BF07EBB11DDF6B8E0044B087 /* HeartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartController.swift; sourceTree = "<group>"; };
+		BF07EBB31DE020CA0044B087 /* ExplosionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplosionController.swift; sourceTree = "<group>"; };
 		BF2DF5B11DCF611A0027BFE4 /* GameDifficult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameDifficult.swift; sourceTree = "<group>"; };
 		BF57EA9B1DCDCC86000117CB /* Project 1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project 1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF57EA9E1DCDCC86000117CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -50,6 +55,7 @@
 		BFB3C58E1DD70FC9005DD46D /* Sunset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sunset.ttf; sourceTree = "<group>"; };
 		BFB3C5901DD7125D005DD46D /* PlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerController.swift; sourceTree = "<group>"; };
 		BFB3C5921DD71B50005DD46D /* EnemyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyController.swift; sourceTree = "<group>"; };
+		BFDEAFFB1DDF2226009B3BC2 /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,7 @@
 		BF57EA9D1DCDCC86000117CB /* Project 1 */ = {
 			isa = PBXGroup;
 			children = (
+				BFDEAFFA1DDF221B009B3BC2 /* View */,
 				BFB3C5811DD4C528005DD46D /* Constants */,
 				BFB3C57E1DD4BFA1005DD46D /* Controllers */,
 				BF57EA9E1DCDCC86000117CB /* AppDelegate.swift */,
@@ -110,6 +117,8 @@
 				BFB3C58C1DD706E5005DD46D /* EnemyBulletController.swift */,
 				BFB3C5901DD7125D005DD46D /* PlayerController.swift */,
 				BFB3C5921DD71B50005DD46D /* EnemyController.swift */,
+				BF07EBB11DDF6B8E0044B087 /* HeartController.swift */,
+				BF07EBB31DE020CA0044B087 /* ExplosionController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -120,6 +129,14 @@
 				BFB3C5821DD4C541005DD46D /* Contants.swift */,
 			);
 			name = Constants;
+			sourceTree = "<group>";
+		};
+		BFDEAFFA1DDF221B009B3BC2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BFDEAFFB1DDF2226009B3BC2 /* View.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFDEAFFC1DDF2226009B3BC2 /* View.swift in Sources */,
 				BFB3C5891DD6FEF2005DD46D /* Controller.swift in Sources */,
 				BFB3C57D1DD4AA5C005DD46D /* Utils.swift in Sources */,
 				BFB3C5911DD7125D005DD46D /* PlayerController.swift in Sources */,
@@ -208,8 +226,10 @@
 				BFB3C58D1DD706E5005DD46D /* EnemyBulletController.swift in Sources */,
 				BFB3C5931DD71B50005DD46D /* EnemyController.swift in Sources */,
 				BFB3C5831DD4C541005DD46D /* Contants.swift in Sources */,
+				BF07EBB41DE020CA0044B087 /* ExplosionController.swift in Sources */,
 				BF57EAA71DCDCC86000117CB /* GameViewController.swift in Sources */,
 				BF2DF5B21DCF611A0027BFE4 /* GameDifficult.swift in Sources */,
+				BF07EBB21DDF6B8E0044B087 /* HeartController.swift in Sources */,
 				BF57EA9F1DCDCC86000117CB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

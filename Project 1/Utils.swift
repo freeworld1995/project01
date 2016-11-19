@@ -8,6 +8,7 @@
 
 import GameplayKit
 import SpriteKit
+import CoreGraphics
 
 extension CGPoint {
     func add(other: CGPoint) -> CGPoint {
@@ -72,6 +73,18 @@ extension SKAction {
         
         let destination = CGPoint(x: dx, y: dy)
         return SKAction.move(to: destination, duration: duration)
+    }
+    
+    static func moveToPath(position: CGPoint,  rect: CGRect, duration: TimeInterval) -> SKAction {
+//        let path = CGMutablePath()
+////        path.addCurve(to: CGPoint(x: 400, y: 568), control1: CGPoint(x: 0, y: 400), control2: CGPoint(x: 320, y: 0))
+//        path.move(to: CGPoint(x: 0, y: 568))
+//        path.addLines(between: [CGPoint(x: 200, y: 568), CGPoint(x: 100, y: 0)])
+//        path.add
+        
+        let bezier = UIBezierPath(rect: CGRect(x: 70, y: -300, width: 100, height: 100))
+        return SKAction.follow(bezier.cgPath, asOffset: true, orientToPath: false, duration: duration)
+   
     }
 
 }

@@ -9,12 +9,12 @@
 import SpriteKit
 
 class Controller {
-    let view: SKSpriteNode
+    let view: View
     var parent: SKNode!
     var shootAction: SKAction?
     var moveAction: SKAction?
     
-    init(view: SKSpriteNode) {
+    init(view: View) {
         self.view = view
     }
     
@@ -26,6 +26,10 @@ class Controller {
         parent.addChild(self.view)
     }
     
+    func configExplosion(position: CGPoint, parent: SKNode, explodeAction: SKAction?) {
+        self.parent = parent
+        parent.addChild(self.view)
+    }
     
     var width: CGFloat {
         get {

@@ -13,10 +13,12 @@ let PLAYER_MASK = UInt32(1 << 1)
 let PLAYER_BULLET = UInt32(1 << 2)
 let ENEMY = UInt32(1 << 3)
 let ENEMY_BULLET = UInt32(1 << 4)
+let HEART = UInt32(1 << 5)
 
 let PLAYER_BULLET_TEXTURE = SKTexture(imageNamed: "bullet")
 let ENEMY_BULLET_TEXTURE = SKTexture(imageNamed: "enemy_bullet")
 let PLAYER_TEXTURE = SKTexture(imageNamed: "plane3")
+let HEART_TEXTURE = SKTexture(imageNamed: "heart")
 var ENEMY_TEXTURE = [enemy1, enemy2, enemy3]
 
 let enemy1 = SKTexture(imageNamed: "enemy1")

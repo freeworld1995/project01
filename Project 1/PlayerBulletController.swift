@@ -13,7 +13,7 @@ class PlayerBulletController: Controller {
     let shootSound = SKAction.playSoundFileNamed("shoot.wav", waitForCompletion: false)
     
     init() {
-        super.init(view: SKSpriteNode(texture: PLAYER_BULLET_TEXTURE))
+        super.init(view: View(texture: PLAYER_BULLET_TEXTURE))
         
         view.physicsBody = SKPhysicsBody(texture: view.texture!, size: view.size)
         view.physicsBody?.categoryBitMask = PLAYER_BULLET
@@ -21,6 +21,9 @@ class PlayerBulletController: Controller {
         view.physicsBody?.collisionBitMask = 0
         view.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         view.name = "player_bullet"
+        view.handleContact = { otherView in
+            self.view.removeFromParent()
+        }
 
     }
     

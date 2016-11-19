@@ -15,7 +15,7 @@ class EnemyController: Controller {
     
     init() {
         ENEMY_TEXTURE =  GKRandomSource.sharedRandom().arrayByShufflingObjects(in: ENEMY_TEXTURE) as! [SKTexture]
-        super.init(view: SKSpriteNode(texture: ENEMY_TEXTURE[0]))
+        super.init(view: View(texture: ENEMY_TEXTURE[0]))
         
     }
     
@@ -26,8 +26,19 @@ class EnemyController: Controller {
         view.physicsBody?.categoryBitMask = ENEMY
         view.physicsBody?.contactTestBitMask = PLAYER_BULLET
         view.physicsBody?.collisionBitMask = 0
+        view.name = "enemy"
+        view.handleContact = { otherView in
+            self.view.removeFromParent()
+            let heartController = HeartController()
+            let moveAction = SKAction.moveToBottom(position: self.position, rect: parent.frame, duration: 3.5)
+            heartController.config(position: self.position, parent: parent, shootAction: nil, moveAction: moveAction)
+            
+            let explosionController = ExplosionController()
+            explosionController.configExplosion(position: self.position, parent: parent, explodeAction: nil)
+        }
         configMove(action: moveAction!)
         configShoot(action: shootAction!)
+        
     }
     
     func configMove(action: SKAction) {

@@ -37,7 +37,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addEnemyArray.append(addLeftToRightEnemy)
         addEnemyArray.append(addRightToLeftEnemy)
  
-        Timer.scheduledTimer(timeInterval: SPAWN_INTERVAL, target: self, selector: #selector(addEnemy), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: SPAWN_INTERVAL, target: self, selector: #selector(addTopToBottomEnemy), userInfo: nil, repeats: true)
         
     }
     
@@ -62,7 +62,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let enemyController = EnemyController()
         let enemyPositionX = GKRandomDistribution(randomSource: GKARC4RandomSource(), lowestValue: 20, highestValue: Int(self.size.width))
         let enemyPosition = CGPoint(x: enemyPositionX.nextInt(), y: self.size.height.ConvertToInt)
-        let moveAction = SKAction.moveToBottom(position: enemyPosition, rect: self.frame, duration: 2.5)
+//        let moveAction = SKAction.moveToBottom(position: enemyPosition, rect: self.frame, duration: 2.5)
+        let moveAction = SKAction.moveToPath(position: enemyPosition, rect: self.frame, duration: 3)
         let shootAction = SKAction.moveToBottom(position: enemyPosition, rect: self.frame, duration: 2.3)
         enemyController.config(position: enemyPosition, parent: self, shootAction: shootAction, moveAction: moveAction)
     }
@@ -129,32 +130,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         
-        var firstBody = SKPhysicsBody()
-        var secondBody = SKPhysicsBody()
+//        var firstBody = SKPhysicsBody()
+//        var secondBody = SKPhysicsBody()
+//        
+//        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+//            firstBody = contact.bodyA
+//            secondBody = contact.bodyB
+//        }
+//        else {
+//            firstBody = contact.bodyB
+//            secondBody = contact.bodyA
+//        }
+
+//
+//        if firstBody.categoryBitMask == PLAYER_BULLET && secondBody.categoryBitMask == ENEMY
+//        {
+//            if secondBody.node != nil {
+//                explosion(at: secondBody.node!.position)
+//                self.run(explodeSound)
+//            }
+//            
+//            firstBody.node?.removeFromParent()
+//            secondBody.node?.removeFromParent()
+//        }
+//        
+//        if firstBody.categoryBitMask == PLAYER_MASK && secondBody.categoryBitMask == ENEMY_BULLET {
+//            runGameOver()
+//        }
         
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
-        }
-        else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
-        }
+        guard let viewA = contact.bodyA.node as? View, let viewB = contact.bodyB.node as? View else { return }
         
-        if firstBody.categoryBitMask == PLAYER_BULLET && secondBody.categoryBitMask == ENEMY
-        {
-            if secondBody.node != nil {
-                explosion(at: secondBody.node!.position)
-                self.run(explodeSound)
-            }
-            
-            firstBody.node?.removeFromParent()
-            secondBody.node?.removeFromParent()
-        }
+//        
+//                if let nameA = viewA.name {
+//                    print("ViewA: \(nameA)")
+//                }
+//        
+//                if let nameB = viewB.name {
+//                    print("ViewB: \(nameB)")
+//                }
         
-        if firstBody.categoryBitMask == PLAYER_MASK && secondBody.categoryBitMask == ENEMY_BULLET {
-            runGameOver()
-        }
+        viewA.handleContact(viewB)
+        viewB.handleContact(viewA)
         
     }
 
